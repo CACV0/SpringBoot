@@ -1,12 +1,9 @@
 package com.consultorio.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "citas")
 public class Cita {
 
     @Id
@@ -14,16 +11,35 @@ public class Cita {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "id_paciente", referencedColumnName = "id")
     private Paciente paciente;
 
     @ManyToOne
+    @JoinColumn(name = "id_doctor", referencedColumnName = "id")
     private Doctor doctor;
 
     @ManyToOne
+    @JoinColumn(name = "especialidad_id", referencedColumnName = "id")
     private Especialidad especialidad;
 
-    public Cita() {}
+    private String fecha;
+    private String hora;
 
+    // Constructor vacío
+    public Cita() {
+    }
+
+    // Constructor con todos los atributos
+    public Cita(Long id, Paciente paciente, Doctor doctor, Especialidad especialidad, String fecha, String hora) {
+        this.id = id;
+        this.paciente = paciente;
+        this.doctor = doctor;
+        this.especialidad = especialidad;
+        this.fecha = fecha;
+        this.hora = hora;
+    }
+
+    // Getters y Setters
     public Long getId() {
         return id;
     }
@@ -56,9 +72,32 @@ public class Cita {
         this.especialidad = especialidad;
     }
 
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getHora() {
+        return hora;
+    }
+
+    public void setHora(String hora) {
+        this.hora = hora;
+    }
+
+    // Método toString()
     @Override
     public String toString() {
-        return "Cita [id=" + id + ", paciente=" + paciente + ", doctor=" + doctor + ", especialidad=" + especialidad
-                + "]";
+        return "Cita{" +
+                "id=" + id +
+                ", paciente=" + paciente +
+                ", doctor=" + doctor +
+                ", especialidad=" + especialidad +
+                ", fecha='" + fecha + '\'' +
+                ", hora='" + hora + '\'' +
+                '}';
     }
 }

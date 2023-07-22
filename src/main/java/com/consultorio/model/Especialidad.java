@@ -1,25 +1,27 @@
 package com.consultorio.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "especialidades")
 public class Especialidad {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String nombre;
 
-    public Especialidad() {}
+    // Constructor vacío
+    public Especialidad() {
+    }
 
-    public Especialidad(String nombre) {
+    // Constructor con todos los atributos
+    public Especialidad(Long id, String nombre) {
+        this.id = id;
         this.nombre = nombre;
     }
 
+    // Getters y Setters
     public Long getId() {
         return id;
     }
@@ -36,8 +38,12 @@ public class Especialidad {
         this.nombre = nombre;
     }
 
+    // Método toString()
     @Override
     public String toString() {
-        return "Especialidad [id=" + id + ", nombre=" + nombre + "]";
+        return "Especialidad{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                '}';
     }
 }

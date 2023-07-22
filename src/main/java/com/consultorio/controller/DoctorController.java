@@ -1,42 +1,72 @@
 package com.consultorio.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 import com.consultorio.model.Doctor;
 import com.consultorio.repository.DoctorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/doctores")
+@RequestMapping("/api/doctores")
 public class DoctorController {
 
+    private final DoctorRepository doctorRepository;
+
     @Autowired
-    private DoctorRepository doctorRepository;
+    public DoctorController(DoctorRepository doctorRepository) {
+        this.doctorRepository = doctorRepository;
+    }
 
     @GetMapping
-    public List<Doctor> obtenerTodosLosDoctores() {
-        return doctorRepository.findAll();
+    public ResponseEntity<List<Doctor>> getAllDoctores() {
+        List<Doctor> doctores = doctorRepository.findAll();
+        return new ResponseEntity<>(doctores, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Doctor> getDoctorById(@PathVariable Long id) {
+        Doctor doctor = doctorRepository.findById(id).orElse(null);
+        if (doctor != null) {
+            return new ResponseEntity<>(doctor, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping
-    public Doctor agregarDoctor(@RequestBody Doctor doctor) {
-        return doctorRepository.save(doctor);
+    public ResponseEntity<Doctor> createDoctor(@RequestBody Doctor doctor) {
+        Doctor newDoctor = doctorRepository.save(doctor);
+        return new ResponseEntity<>(newDoctor, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public Doctor actualizarDoctor(@PathVariable Long id, @RequestBody Doctor doctorActualizado) {
-        Doctor doctor = doctorRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Doctor no encontrado con ID: " + id));
+    public ResponseEntity<Doctor> updateDoctor(@PathVariable Long id, @RequestBody Doctor doctor) {
+        Doctor existingDoctor = doctorRepository.findById(id).orElse(null);
+        if (existingDoctor != null) {
+            existingDoctor.setNombre(doctor.getNombre());
+            existingDoctor.setApellido(doctor.getApellido());
+            existingDoctor.setEspecialidad(doctor.getEspecialidad());
+            existingDoctor.setConsultorio(doctor.getConsultorio());
+            existingDoctor.setCorreo(doctor.getCorreo());
 
-        doctor.setNombre(doctorActualizado.getNombre());
-        doctor.setApellido(doctorActualizado.getApellido());
-        doctor.setEspecialidad(doctorActualizado.getEspecialidad());
-        return doctorRepository.save(doctor);
+            doctorRepository.save(existingDoctor);
+            return new ResponseEntity<>(existingDoctor, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/{id}")
-    public void eliminarDoctor(@PathVariable Long id) {
-        doctorRepository.deleteById(id);
+    public ResponseEntity<Void> deleteDoctor(@PathVariable Long id) {
+        Doctor doctor = doctorRepository.findById(id).orElse(null);
+        if (doctor != null) {
+            doctorRepository.delete(doctor);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
