@@ -4,10 +4,13 @@ import com.consultorio.model.Cita;
 import com.consultorio.repository.CitaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Service
+@Validated
 public class CitasService {
 
     private final CitaRepository citaRepository;
@@ -25,11 +28,11 @@ public class CitasService {
         return citaRepository.findById(id).orElse(null);
     }
 
-    public Cita createCita(Cita cita) {
+    public Cita createCita(@Valid Cita cita) {
         return citaRepository.save(cita);
     }
 
-    public Cita updateCita(Long id, Cita cita) {
+    public Cita updateCita(Long id, @Valid Cita cita) {
         Cita existingCita = citaRepository.findById(id).orElse(null);
         if (existingCita != null) {
             existingCita.setPaciente(cita.getPaciente());
@@ -51,4 +54,3 @@ public class CitasService {
         }
     }
 }
-

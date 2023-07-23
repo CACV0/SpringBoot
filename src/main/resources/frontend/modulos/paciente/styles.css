@@ -1,0 +1,45 @@
+/* Estilos para el formulario de paciente */
+#pacienteForm {
+    margin-bottom: 20px;
+}
+
+#pacienteForm input[type="text"],
+#pacienteForm input[type="number"] {
+    margin-bottom: 10px;
+    padding: 5px;
+    width: 300px;
+}
+
+/* Estilos para la lista de pacientes */
+#pacientesList {
+    list-style: none;
+    padding: 0;
+}
+
+#pacientesList li {
+    margin-bottom: 5px;
+}
+
+/* Estilos para los botones */
+.button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.button-danger {
+    background-color: #f44336;
+}
+
+/* Estilos para los títulos */
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+}

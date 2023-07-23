@@ -1,0 +1,20 @@
+/* Estilos para el formulario de cita */
+#citaForm {
+    margin-bottom: 20px;
+}
+
+#citaForm input[type="text"] {
+    margin-bottom: 10px;
+    padding: 5px;
+    width: 300px;
+}
+
+/* Estilos para la lista de citas */
+#citasList {
+    list-style: none;
+    padding: 0;
+}
+
+#citasList li {
+    margin-bottom: 5px;
+}

@@ -1,6 +1,7 @@
 package com.consultorio.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank; 
 
 @Entity
 @Table(name = "especialidades")
@@ -9,6 +10,8 @@ public class Especialidad {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank(message = "El campo nombre es obligatorio")
     private String nombre;
 
     // Constructor vacío

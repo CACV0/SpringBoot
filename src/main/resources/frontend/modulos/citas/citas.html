@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Citas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <h1>Gestión de Citas</h1>
+
+    <!-- Formulario para agregar cita -->
+    <form id="citaForm">
+        <input type="text" id="paciente" placeholder="Paciente" required>
+        <input type="text" id="doctor" placeholder="Doctor" required>
+        <input type="text" id="especialidad" placeholder="Especialidad" required>
+        <input type="text" id="fecha" placeholder="Fecha" required>
+        <input type="text" id="hora" placeholder="Hora" required>
+        <button type="button" class="button" onclick="agregarCita()">Agregar</button>
+        <button type="button" class="button button-danger" onclick="limpiarFormulario()">Limpiar</button>
+    </form>
+
+    <!-- Lista de citas -->
+    <ul id="citasList"></ul>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+
+</html>

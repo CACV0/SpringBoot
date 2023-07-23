@@ -1,6 +1,7 @@
 package com.consultorio.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank; 
 
 @Entity
 @Table(name = "citas")
@@ -22,7 +23,10 @@ public class Cita {
     @JoinColumn(name = "especialidad_id", referencedColumnName = "id")
     private Especialidad especialidad;
 
+    @NotBlank(message = "El campo fecha es obligatorio")
     private String fecha;
+
+    @NotBlank(message = "El campo hora es obligatorio")
     private String hora;
 
     // Constructor vacío
@@ -96,8 +100,8 @@ public class Cita {
                 ", paciente=" + paciente +
                 ", doctor=" + doctor +
                 ", especialidad=" + especialidad +
-                ", fecha='" + fecha + '\'' +
-                ", hora='" + hora + '\'' +
+                ", fecha=" + fecha +
+                ", hora=" + hora +
                 '}';
     }
 }

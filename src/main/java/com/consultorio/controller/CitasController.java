@@ -1,34 +1,37 @@
 package com.consultorio.controller;
 
 import com.consultorio.model.Cita;
-import com.consultorio.repository.CitaRepository;
+import com.consultorio.service.CitasService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/citas")
 public class CitasController {
 
-    private final CitaRepository citaRepository;
+    private final CitasService citasService;
 
     @Autowired
-    public CitasController(CitaRepository citaRepository) {
-        this.citaRepository = citaRepository;
+    public CitasController(CitasService citasService) {
+        this.citasService = citasService;
     }
 
     @GetMapping
     public ResponseEntity<List<Cita>> getAllCitas() {
-        List<Cita> citas = citaRepository.findAll();
+        List<Cita> citas = citasService.getAllCitas();
         return new ResponseEntity<>(citas, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Cita> getCitaById(@PathVariable Long id) {
-        Cita cita = citaRepository.findById(id).orElse(null);
+        Cita cita = citasService.getCitaById(id);
         if (cita != null) {
             return new ResponseEntity<>(cita, HttpStatus.OK);
         } else {
@@ -37,23 +40,20 @@ public class CitasController {
     }
 
     @PostMapping
-    public ResponseEntity<Cita> createCita(@RequestBody Cita cita) {
-        Cita newCita = citaRepository.save(cita);
-        return new ResponseEntity<>(newCita, HttpStatus.CREATED);
+    public ResponseEntity<?> createCita(@Valid @RequestBody Cita cita, BindingResult result) {
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body(result.getAllErrors());
+        }
+
+        Cita savedCita = citasService.createCita(cita);
+        return ResponseEntity.ok(savedCita);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Cita> updateCita(@PathVariable Long id, @RequestBody Cita cita) {
-        Cita existingCita = citaRepository.findById(id).orElse(null);
-        if (existingCita != null) {
-            existingCita.setPaciente(cita.getPaciente());
-            existingCita.setDoctor(cita.getDoctor());
-            existingCita.setEspecialidad(cita.getEspecialidad());
-            existingCita.setFecha(cita.getFecha());
-            existingCita.setHora(cita.getHora());
-
-            citaRepository.save(existingCita);
-            return new ResponseEntity<>(existingCita, HttpStatus.OK);
+        Cita updatedCita = citasService.updateCita(id, cita);
+        if (updatedCita != null) {
+            return new ResponseEntity<>(updatedCita, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -61,12 +61,7 @@ public class CitasController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCita(@PathVariable Long id) {
-        Cita cita = citaRepository.findById(id).orElse(null);
-        if (cita != null) {
-            citaRepository.delete(cita);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        citasService.deleteCita(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

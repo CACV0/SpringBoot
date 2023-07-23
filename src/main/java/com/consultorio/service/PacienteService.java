@@ -5,6 +5,7 @@ import com.consultorio.repository.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Service
@@ -25,11 +26,11 @@ public class PacienteService {
         return pacienteRepository.findById(id).orElse(null);
     }
 
-    public Paciente createPaciente(Paciente paciente) {
+    public Paciente createPaciente(@Valid Paciente paciente) {
         return pacienteRepository.save(paciente);
     }
 
-    public Paciente updatePaciente(Long id, Paciente paciente) {
+    public Paciente updatePaciente(Long id, @Valid Paciente paciente) {
         Paciente existingPaciente = pacienteRepository.findById(id).orElse(null);
         if (existingPaciente != null) {
             existingPaciente.setNombre(paciente.getNombre());

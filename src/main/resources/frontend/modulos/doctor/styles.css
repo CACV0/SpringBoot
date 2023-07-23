@@ -1,0 +1,20 @@
+/* Estilos para el formulario de doctor */
+#doctorForm {
+    margin-bottom: 20px;
+}
+
+#doctorForm input[type="text"] {
+    margin-bottom: 10px;
+    padding: 5px;
+    width: 300px;
+}
+
+/* Estilos para la lista de doctores */
+#doctoresList {
+    list-style: none;
+    padding: 0;
+}
+
+#doctoresList li {
+    margin-bottom: 5px;
+}

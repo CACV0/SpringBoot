@@ -1,6 +1,7 @@
 package com.consultorio.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank; 
 
 @Entity
 @Table(name = "doctores")
@@ -9,7 +10,11 @@ public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank(message = "El campo nombre es obligatorio")
     private String nombre;
+
+    @NotBlank(message = "El campo apellido es obligatorio")
     private String apellido;
 
     @ManyToOne
@@ -17,6 +22,8 @@ public class Doctor {
     private Especialidad especialidad;
 
     private int consultorio;
+
+    @NotBlank(message = "El campo correo es obligatorio")
     private String correo;
 
     // Constructor vacío
@@ -95,4 +102,3 @@ public class Doctor {
                 '}';
     }
 }
-

@@ -1,6 +1,8 @@
 package com.consultorio.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.NotBlank; 
 
 @Entity
 @Table(name = "pacientes")
@@ -9,10 +11,21 @@ public class Paciente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank(message = "El campo nombre es obligatorio")
     private String nombre;
+
+    @NotBlank(message = "El campo cedula es obligatorio")
+    @Size(min = 10, max = 10, message = "La cedula debe tener 10 caracteres")
     private String cedula;
+
+    @NotBlank(message = "El campo apellido es obligatorio")
     private String apellido;
+
     private int edad;
+
+    @NotBlank(message = "El campo telefono es obligatorio")
+    @Size(min = 10, max = 10, message = "El telefono debe tener 10 caracteres")
     private String telefono;
 
     // Constructor vacío

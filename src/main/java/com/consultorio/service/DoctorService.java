@@ -5,6 +5,7 @@ import com.consultorio.repository.DoctorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Service
@@ -25,11 +26,11 @@ public class DoctorService {
         return doctorRepository.findById(id).orElse(null);
     }
 
-    public Doctor createDoctor(Doctor doctor) {
+    public Doctor createDoctor(@Valid Doctor doctor) {
         return doctorRepository.save(doctor);
     }
 
-    public Doctor updateDoctor(Long id, Doctor doctor) {
+    public Doctor updateDoctor(Long id, @Valid Doctor doctor) {
         Doctor existingDoctor = doctorRepository.findById(id).orElse(null);
         if (existingDoctor != null) {
             existingDoctor.setNombre(doctor.getNombre());
@@ -45,9 +46,6 @@ public class DoctorService {
     }
 
     public void deleteDoctor(Long id) {
-        Doctor doctor = doctorRepository.findById(id).orElse(null);
-        if (doctor != null) {
-            doctorRepository.delete(doctor);
-        }
+        doctorRepository.deleteById(id);
     }
 }

@@ -5,6 +5,7 @@ import com.consultorio.repository.EspecialidadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Service
@@ -25,11 +26,11 @@ public class EspecialidadService {
         return especialidadRepository.findById(id).orElse(null);
     }
 
-    public Especialidad createEspecialidad(Especialidad especialidad) {
+    public Especialidad createEspecialidad(@Valid Especialidad especialidad) {
         return especialidadRepository.save(especialidad);
     }
 
-    public Especialidad updateEspecialidad(Long id, Especialidad especialidad) {
+    public Especialidad updateEspecialidad(Long id, @Valid Especialidad especialidad) {
         Especialidad existingEspecialidad = especialidadRepository.findById(id).orElse(null);
         if (existingEspecialidad != null) {
             existingEspecialidad.setNombre(especialidad.getNombre());
@@ -46,4 +47,3 @@ public class EspecialidadService {
         }
     }
 }
-
